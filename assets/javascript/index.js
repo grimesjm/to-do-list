@@ -50,11 +50,17 @@ TodoList = new Ext.Application({
         Category.lists = new Ext.List({
             id: 'indexList',
             store: Category.repository,
-            itemTpl: '<div class="category">{name}</div>'
-
+            itemTpl: '<div class="category">{name}<div id="category_{id}", style="display: none"><tpl for="actionItems"><li>{name}</li></tpl></div></div>',
+            onItemDisclosure: function(record) {
+                showActionItemsForCategory(record);    
+            }
         });
 
 
+        var showActionItemsForCategory =  function(record) {
+            $('#category_' + record.data.id).toggle();
+        };
+        
         TodoList.Viewport = new Ext.Panel({
             fullscreen: true,
             layout : 'card',
